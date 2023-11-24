@@ -22,6 +22,7 @@ NodoListaCS* buscarNodoHash(ListaComSublistas*, int);
 int buscarHashElemento(ListaComSublistas*, char*);
 int listaCSVazia(ListaComSublistas*);
 void removerListaCS(ListaComSublistas*);
+char* removerCS(ListaComSublistas*, NodoListaCS*);
 int tamSublistaHash(ListaComSublistas*, int);
 
 NodoListaCS* criaNodoListaCS(int hash) {
@@ -80,8 +81,6 @@ void inserirElementoHash(ListaComSublistas* listaCS, char* dado) {
     Lista* lista;
     lista = buscarNodoHash(listaCS, hash)->sublista;
     trataErro(inserir(lista, lista->tail, dado));
-    //printf("\nhead: %s", lista->head->dado);
-    //printf("\ntail: %s", lista->tail->dado);
 }
 
 NodoListaCS* buscarNodoHash(ListaComSublistas* listaCS, int hash) {
@@ -123,6 +122,7 @@ void removerListaCS(ListaComSublistas* listaCS) {
 	
 	NodoListaCS* nodoListaCS;
     nodoListaCS = listaCS->head;
+    NodoListaCS* nodoListaCSremover;
     
     Nodo* nodoRemover;
     Nodo* nodoProx;
@@ -134,6 +134,40 @@ void removerListaCS(ListaComSublistas* listaCS) {
             nodoRemover = nodoProx;
         }
         nodoListaCS = nodoListaCS->next;
+    }
+
+    nodoListaCS = listaCS->head;
+    while (nodoListaCS != NULL) {
+        nodoListaCSremover = nodoListaCS->next;
+        trataErro(removerCS(listaCS, nodoListaCS));
+        nodoListaCS = nodoListaCSremover;
+    }
+}
+
+char* removerCS(ListaComSublistas* lista, NodoListaCS* elemento_pivo) {
+	if (listaCSVazia(lista))
+		return ".1";
+	
+	if ((elemento_pivo!=NULL) && (!listaCSVazia(lista))) {
+        if (elemento_pivo == lista->head) {
+            lista->head = elemento_pivo->next;
+            
+            if (lista->head == NULL)
+                lista->tail = NULL;
+            else
+                elemento_pivo->next->prev = NULL;
+        } else {
+            elemento_pivo->prev->next = elemento_pivo->next;
+            
+            if (elemento_pivo->next == NULL) 
+                lista->tail = elemento_pivo->prev;
+            else
+                elemento_pivo->next->prev = elemento_pivo->prev;
+        }
+	    lista->size--;
+	    
+        free(elemento_pivo);
+        return "-1"; 
     }
 }
 
