@@ -1,5 +1,3 @@
-//FALTA REMOVER OS NODOS DA LISTACS
-
 #include <time.h>
 #include <string.h>
 #include "quicksort.c"
@@ -8,20 +6,12 @@ void lerArquivo(ListaComSublistas*);
 void escreverArquivo(ListaComSublistas*);
 
 int main() {
-    clock_t t = clock();
     ListaComSublistas* tabelaHash;
     tabelaHash = criaListaComSublistas(M);
 
     lerArquivo(tabelaHash);
-    //char* teste = "TESTANDO";
-    //inserirElementoHash(tabelaHash, teste); //funciona corretamente
-    //inserirElementoHash(tabelaHash, "TESTANDO"); //funciona corretamente
     quicksortListaCS(tabelaHash);
     escreverArquivo(tabelaHash);
-    //printar(tabelaHash);
-
-    t = clock() - t;
-    printf("Algoritmo rodado em %f segundos", ((float)t)/CLOCKS_PER_SEC);
     removerListaCS(tabelaHash); 
 }
 
@@ -29,7 +19,7 @@ void lerArquivo(ListaComSublistas* listaCS) {
     FILE *arq;
     char linha[100];
     
-    arq = fopen("../nomes2.txt", "rt");
+    arq = fopen("../nomes.txt", "r"); 
     if (arq == NULL) {
         printf("Problemas na abertura do arquivo\n");
         return;
@@ -37,9 +27,8 @@ void lerArquivo(ListaComSublistas* listaCS) {
     
     while (!feof(arq)) {
         fgets(linha, 100, arq); 
-        //printf("teste: %s", linha); //imprime tudo certinho
+        strcpy(linha, strtok(linha, "\n"));
         inserirElementoHash(listaCS, linha);
-        //inserirElementoHash(listaCS, "testando"); //nao executa
     }
 
     fclose(arq);
