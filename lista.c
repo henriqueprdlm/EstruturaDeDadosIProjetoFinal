@@ -30,7 +30,8 @@ Nodo* criaNodo(char* dado) {
     Nodo* novo;
     novo = (Nodo*) malloc(sizeof(Nodo));
     if (novo != NULL) {
-        novo->dado = dado;
+        novo->dado = (char*) malloc(sizeof(dado));
+        strcpy(novo->dado, dado);
         novo->prev = NULL;
         novo->next = NULL;
     }
@@ -98,7 +99,7 @@ char* inserir(Lista* lista, Nodo* elemento_pivo, char* dado) {
 
 char* remover(Lista* lista, Nodo* elemento_pivo) {
 	if (listaVazia(lista))
-		return ".1"; //Erro de lista vazia
+		return ".1";
 	
 	if ((elemento_pivo!=NULL) && (!listaVazia(lista))) {
         if (elemento_pivo == lista->head) {
