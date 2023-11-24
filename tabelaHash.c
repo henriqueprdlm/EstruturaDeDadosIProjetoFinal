@@ -4,10 +4,10 @@
 
 #define M 53
 
-int calculaHash(char* dado) { //hash modular
+int calculaHash(char* dado) { 
     int hash = 0;
     for (int i = 0; i < strlen(dado); i++) {
-        hash = (13 * hash + dado[i]) % M; //M=53 (professor), R=13 (primo)
+        hash = (13 * hash + dado[i]) % M; 
     }
     return hash;
 }
